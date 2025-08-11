@@ -1,0 +1,247 @@
+{
+  "info": {
+    "_postman_id": "c1a2b3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "name": "Loan Engine API",
+    "description": "A collection for the Dockerized Slim Framework Loan Engine API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create Customer User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id_number\": \"3201234567890004\",\n    \"name\": \"Rina Investor\",\n    \"email\": \"rina.investor@example.com\",\n    \"role\": \"investor\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Loans",
+      "item": [
+        {
+          "name": "1. Create Loan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "pm.collectionVariables.set(\"loan_id\", jsonData.loan_id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"borrower_id\": 1,\n    \"principal_amount\": 10000000.00,\n    \"rate\": 15.0,\n    \"roi\": 12.5\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/loans",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "loans"
+              ]
+            },
+            "description": "Creates a new loan in the 'proposed' state. The `loan_id` from the response is automatically saved as a collection variable to be used in subsequent requests."
+          },
+          "response": []
+        },
+        {
+          "name": "2. Approve Loan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"validator_employee_id\": 1,\n    \"proof_picture\": \"VGhpcyBpcyBhIGR1bW15IGJhc2U2NCBzdHJpbmcgZm9yIHRoZSBwaG90byBwcm9vZi4=\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/loans/{{loan_id}}/approve",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "loans",
+                "{{loan_id}}",
+                "approve"
+              ]
+            },
+            "description": "Approves a loan, moving its state from 'proposed' to 'approved'. It uses the `loan_id` saved from the 'Create Loan' request."
+          },
+          "response": []
+        },
+        {
+          "name": "3. Invest in Loan (Partial)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"investor_id\": 2,\n    \"amount\": 6000000.00\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/loans/{{loan_id}}/invest",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "loans",
+                "{{loan_id}}",
+                "invest"
+              ]
+            },
+            "description": "Adds a partial investment to an 'approved' loan."
+          },
+          "response": []
+        },
+        {
+          "name": "4. Invest in Loan (Final)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"investor_id\": 3,\n    \"amount\": 4000000.00\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/loans/{{loan_id}}/invest",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "loans",
+                "{{loan_id}}",
+                "invest"
+              ]
+            },
+            "description": "Adds the final investment amount, which should move the loan's state to 'invested'."
+          },
+          "response": []
+        },
+        {
+          "name": "5. Disburse Loan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"officer_employee_id\": 2,\n    \"signed_agreement_letter\": \"VGhpcyBpcyBhIGR1bW15IGJhc2U2NCBzdHJpbmcgZm9yIHRoZSBzaWduZWQgYWdyZWVtZW50Lg==\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/loans/{{loan_id}}/disburse",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "loans",
+                "{{loan_id}}",
+                "disburse"
+              ]
+            },
+            "description": "Disburses the loan, moving its state from 'invested' to 'disbursed'."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Loan Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/loans/{{loan_id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "loans",
+                "{{loan_id}}"
+              ]
+            },
+            "description": "Retrieves the full details of a specific loan, including its investments."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "loan_id",
+      "value": ""
+    }
+  ]
+}
