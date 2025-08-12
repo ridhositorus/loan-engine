@@ -29,3 +29,19 @@ To run the REST app
 ```
 docker compose up -d --build
 ```
+
+## Viewing Logs
+1. Live Tailing (Most Useful for Debugging)
+To see a live, real-time stream of logs as they happen, use -f flag.
+
+```
+docker-compose logs -f php
+```
+After running this command, go to Postman and trigger the API call that executes the error_log() function. You will see the message appear instantly in your terminal.
+
+2. Viewing All Past Logs
+To see the entire log history since the container was last started, just run the command without the -f flag.
+
+```
+docker-compose logs php
+```
