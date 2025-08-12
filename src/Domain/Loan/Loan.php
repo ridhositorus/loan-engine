@@ -7,7 +7,6 @@ use App\Domain\Loan\Exception\InvalidLoanStateTransitionException;
 class Loan
 {
   private LoanStatus $status;
-  private ?string $agreementLetterLink = null;
   private ?int $validatorEmployeeId = null;
   private ?\DateTimeImmutable $approvalDate = null;
   private ?string $proofPicture = null;
@@ -22,7 +21,8 @@ class Loan
     private readonly float $principalAmount,
     private readonly float $rate,
     private readonly float $roi,
-    string                 $status = 'proposed'
+    string                 $status = 'proposed',
+    private ?string        $agreementLetterLink = null,
   )
   {
     $this->status = LoanStatus::from($status);

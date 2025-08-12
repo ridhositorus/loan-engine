@@ -12,6 +12,28 @@ class LoanRepository implements LoanRepositoryInterface
   {
   }
 
+  public function beginTransaction(): void
+  {
+    $this->pdo->beginTransaction();
+  }
+
+  public function commit(): void
+  {
+    if ($this->pdo->inTransaction())
+    {
+      $this->pdo->commit();
+    }
+  }
+
+  public function rollBack(): void
+  {
+    // Only roll back if a transaction is active
+    if ($this->pdo->inTransaction())
+    {
+      $this->pdo->rollBack();
+    }
+  }
+
   /**
    * Finds a loan by its ID without locking it.
    */
@@ -63,7 +85,7 @@ class LoanRepository implements LoanRepositoryInterface
         ':status' => $loan->getStatus(),
       ]);
       $id = (int)$this->pdo->lastInsertId();
-      $loan->setId($id); // Set the new ID back on the entity object.
+      $loan->setId($id);
     }
     else
     {
@@ -111,7 +133,8 @@ class LoanRepository implements LoanRepositoryInterface
       principalAmount: (float)$data['principal_amount'],
       rate: (float)$data['rate'],
       roi: (float)$data['roi'],
-      status: $data['status']
+      status: $data['status'],
+      agreementLetterLink: $data['agreement_letter_link'],
     );
   }
 }

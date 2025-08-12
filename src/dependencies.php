@@ -7,6 +7,7 @@ use App\Domain\User\UserRepositoryInterface;
 use App\Infrastructure\Persistence\MySql\InvestmentRepository;
 use App\Infrastructure\Persistence\MySql\LoanRepository;
 use App\Infrastructure\Persistence\MySql\UserRepository;
+use App\Infrastructure\Service\LogNotificationService;
 use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 
@@ -26,6 +27,8 @@ return function (ContainerBuilder $containerBuilder)
     LoanRepositoryInterface::class => \DI\autowire(LoanRepository::class),
     InvestmentRepositoryInterface::class => \DI\autowire(InvestmentRepository::class),
     UserRepositoryInterface::class => \DI\autowire(UserRepository::class),
+
+    NotificationServiceInterface::class => \DI\autowire(LogNotificationService::class),
   ]);
 
 };

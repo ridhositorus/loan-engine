@@ -1,9 +1,10 @@
 {
   "info": {
-    "_postman_id": "c1a2b3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "_postman_id": "0476a8ba-ca3c-44ec-b66c-f010681f9430",
     "name": "Loan Engine API",
     "description": "A collection for the Dockerized Slim Framework Loan Engine API.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "3004549"
   },
   "item": [
     {
@@ -118,7 +119,7 @@
           "response": []
         },
         {
-          "name": "3. Invest in Loan (Partial)",
+          "name": "3. Invest in Loan",
           "request": {
             "method": "POST",
             "header": [
@@ -129,7 +130,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"investor_id\": 2,\n    \"amount\": 6000000.00\n}"
+              "raw": "{\n    \"investor_id\": 2,\n    \"amount\": 10000000.00\n}"
             },
             "url": {
               "raw": "http://localhost:8080/api/loans/{{loan_id}}/invest",
@@ -150,39 +151,7 @@
           "response": []
         },
         {
-          "name": "4. Invest in Loan (Final)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"investor_id\": 3,\n    \"amount\": 4000000.00\n}"
-            },
-            "url": {
-              "raw": "http://localhost:8080/api/loans/{{loan_id}}/invest",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "api",
-                "loans",
-                "{{loan_id}}",
-                "invest"
-              ]
-            },
-            "description": "Adds the final investment amount, which should move the loan's state to 'invested'."
-          },
-          "response": []
-        },
-        {
-          "name": "5. Disburse Loan",
+          "name": "4. Disburse Loan",
           "request": {
             "method": "POST",
             "header": [
